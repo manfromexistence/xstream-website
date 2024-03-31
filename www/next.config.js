@@ -47,6 +47,6 @@ const nextConfig = {
 };
 
 module.exports = withPlugins(
-  [withVanillaExtract, withContentlayer],
+  [withVanillaExtract],
   nextConfig,
 );
