@@ -6,7 +6,6 @@ import StreamChat from "@/components/StreamChat";
 import PeerView from "@/components/PeerView";
 import { useStreamContext } from "@/contexts/streamContext";
 import { useAccount } from "wagmi";
-import { IStreamData } from "@/utils/types";
 import { useSignerContext } from "@/contexts/signerContext";
 import NotASubscriber from "@/components/NotASubscriber";
 import LoadingModal from "@/components/LoadingModal";
@@ -79,22 +78,22 @@ const Room = () => {
 
   return (
     <div className="bg flex flex-col justify-start items-center scrollbar-hidden content">
-      <Navbar isSticky={true}></Navbar>
-      <LoadingModal isOpen={context.loading}></LoadingModal>
-      <div className="w-full h-[10vh]"></div>
+      <Navbar isSticky={true} />
+      <LoadingModal isOpen={context.loading} />
+      <div className="w-full h-[10vh]" />
       {streamData?.exclusive ? (
         isHost || subscribed ? (
           <div className="w-[90%] h-[100vh] mt-6 flex flex-row justify-between items-start">
-            {isHost ? <HostView></HostView> : <PeerView></PeerView>}
-            <StreamChat></StreamChat>
+            {isHost ? <HostView/> : <PeerView/>}
+            <StreamChat/>
           </div>
         ) : (
-          <NotASubscriber streamerData={streamerData}></NotASubscriber>
+          <NotASubscriber streamerData={streamerData}/>
         )
       ) : (
         <div className="w-[90%] h-[100vh] mt-6 flex flex-row justify-between items-start">
-          {isHost ? <HostView></HostView> : <PeerView></PeerView>}
-          <StreamChat></StreamChat>
+          {isHost ? <HostView/> : <PeerView/>}
+          <StreamChat/>
         </div>
       )}
     </div>

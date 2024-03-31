@@ -26,7 +26,7 @@ const ChooseWisely: React.FC<ChooseWiselyProps> = ({ setChoseUser }) => {
                 router.push("/createStreamer");
               }}
               disabled={false}
-            ></PrimaryButton>
+            />
           </div>
         </div>
         <div className="parent-div2">
@@ -40,7 +40,7 @@ const ChooseWisely: React.FC<ChooseWiselyProps> = ({ setChoseUser }) => {
                 setChoseUser(true);
               }}
               disabled={false}
-            ></PrimaryButton>
+            />
           </div>
         </div>
       </div>

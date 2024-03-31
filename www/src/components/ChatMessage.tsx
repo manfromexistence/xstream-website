@@ -17,11 +17,11 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ chat, streamData }) => {
     }
     return color;
   };
-  const [nameColor, setNameColor] = useState(getRandomColor());
+  const [nameColor, _setNameColor] = useState(getRandomColor());
 
   return (
     <div className="w-full h-auto">
-      {chat.isSubscriber || chat.sender == streamData?.streamer ? (
+      {chat.isSubscriber || chat.sender === streamData?.streamer ? (
         <span className="w-full h-auto flex flex-row justify-start items-baseline bg-secondaryRed/20 border-primaryRed border-[1px] border-solid py-2 px-3 rounded-xl">
           <span
             className="drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] font-rubik font-bold text-[1.4rem] flex-col justify-start items-start"
@@ -34,7 +34,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ chat, streamData }) => {
                   {parseFloat(chat.amount.toString()) / 10 ** 18}
                 </span>
                 <div className="h-[1.2rem] w-[1.2rem] ml-2">
-                  <Image alt="Polygon Logo" src={PolygonLogo}></Image>
+                  <Image alt="Polygon Logo" src={PolygonLogo}/>
                 </div>
               </span>
             )}
@@ -56,7 +56,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ chat, streamData }) => {
                   {parseFloat(chat.amount.toString()) / 10 ** 18}
                 </span>
                 <div className="h-[1.2rem] w-[1.2rem] ml-2">
-                  <Image alt="Polygon Logo" src={PolygonLogo}></Image>
+                  <Image alt="Polygon Logo" src={PolygonLogo}/>
                 </div>
               </span>
             )}

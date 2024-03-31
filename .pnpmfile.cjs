@@ -19,7 +19,7 @@ module.exports = {
 };
 
 function omitRootDependencies(packageName, dependencies) {
-  const packageJson = require('./rt/package.json');
+  const packageJson = require('./package.json');
   const rootDependencies = {
     ...packageJson.dependencies,
     ...packageJson.devDependencies,

@@ -13,10 +13,6 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ collection }) => {
   return (
     <div
       className="h-[16rem] w-[21rem] glass-container flex flex-col justify-start items-center text-white hover:bg-secondaryRed/25 cursor-pointer"
-      onClick={() => {
-        // Handle click for the uppermost div here
-        console.log("Upperdiv clicked");
-      }}
     >
       <div className="relative h-[10rem] w-full">
         <Image
