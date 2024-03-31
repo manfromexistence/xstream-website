@@ -25,12 +25,12 @@ import { Header } from "@/components/Header/Header";
 const LandingPage = () => {
   return (
     <div className="flex flex-col justify-start items-center h-auto">
-      <Header />
-      {/* <Main></Main>
+      {/* <Header /> */}
+      <Main></Main>
       <LiveStream></LiveStream>
       <LiveChat></LiveChat>
       <TokenGated></TokenGated>
-      <HowToStart></HowToStart> */}
+      <HowToStart></HowToStart>
     </div>
   );
 };
