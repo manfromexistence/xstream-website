@@ -14,7 +14,6 @@ import StartStream from "../../assets/images/StartStream.png";
 import WatchStream from "../../assets/images/WatchStream.png";
 import BeSubscriber from "../../assets/images/BeSubscriber.png";
 import Youtube from "../../assets/logos/Youtube.png";
-import Navbar from "@/components/Navbar";
 import XstreamTextLogo from "../../assets/logos/XstreamTextLogo.png";
 import Huddle01 from "../../assets/logos/Huddle01.png";
 import IPFSLogo from "../../assets/logos/IPFSLogo.png";
@@ -24,11 +23,11 @@ import Slider from "react-slick";
 const LandingPage = () => {
   return (
     <div className="flex flex-col justify-start items-center h-auto">
-      <Main></Main>
-      <LiveStream></LiveStream>
-      <LiveChat></LiveChat>
-      <TokenGated></TokenGated>
-      <HowToStart></HowToStart>
+      <Main />
+      <LiveStream/>
+      <LiveChat/>
+      <TokenGated/>
+      <HowToStart/>
     </div>
   );
 };
