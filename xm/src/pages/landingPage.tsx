@@ -20,10 +20,12 @@ import Huddle01 from "../../assets/logos/Huddle01.png";
 import IPFSLogo from "../../assets/logos/IPFSLogo.png";
 import PolygonLogo from "../../assets/logos/PolygonLogo.png";
 import Slider from "react-slick";
+import { Header } from "@/components/Header/Header";
 
 const LandingPage = () => {
   return (
     <div className="flex flex-col justify-start items-center h-auto">
+      <Header />
       <Main></Main>
       <LiveStream></LiveStream>
       <LiveChat></LiveChat>
