@@ -1,4 +1,5 @@
 import { getDefaultConfig, getDefaultWallets } from '@rainbow-me/rainbowkit';
+import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import {
   argentWallet,
   imTokenWallet,
@@ -74,7 +75,12 @@ const client = new QueryClient();
 export function Provider({ children }: { children: React.ReactNode }) {
   return (
     <WagmiProvider config={config}>
-      <QueryClientProvider client={client}>{children}</QueryClientProvider>
+        <QueryClientProvider client={client}>
+      <RainbowKitProvider coolMode>
+          {children}
+          
+      </RainbowKitProvider>
+          </QueryClientProvider>
     </WagmiProvider>
   );
 }
