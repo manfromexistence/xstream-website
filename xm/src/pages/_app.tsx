@@ -14,6 +14,7 @@ import Context from "../contexts/context";
 import { SignerContextProvider } from "@/contexts/signerContext";
 import { StreamContextProvider } from "@/contexts/streamContext";
 import { CurrentUserOrStreamerContextProvider } from "@/contexts/currUserOrStreamerContext";
+import { Provider } from "@/components/Provider/Provider";
 
 // const { chains, provider } = configureChains(
 //   [polygonMumbai],
@@ -75,23 +76,26 @@ export default function App({ Component, pageProps }: AppProps) {
     //     </Context.Provider>
     //   </RainbowKitProvider>
     // </WagmiConfig>
-    <Context.Provider
-      value={{
-        roomId,
-        setRoomId,
-        loading,
-        setLoading
-      }}
-    >
-      {/* <SignerContextProvider>
+    <Provider>
+      <Context.Provider
+        value={{
+          roomId,
+          setRoomId,
+          loading,
+          setLoading
+        }}
+      >
+        {/* <SignerContextProvider>
       <StreamContextProvider>
         <CurrentUserOrStreamerContextProvider>
           <Component {...pageProps} />
         </CurrentUserOrStreamerContextProvider>
       </StreamContextProvider>
     </SignerContextProvider> */}
-      <Component {...pageProps} />
+        <Component {...pageProps} />
 
-    </Context.Provider>
+      </Context.Provider>
+    </Provider>
+
   );
 }
