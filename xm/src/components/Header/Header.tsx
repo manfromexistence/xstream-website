@@ -12,7 +12,6 @@ import { vars } from 'css/vars.css';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
-// import pckg from '../../../../packages/rainbowkit/package.json';
 import { header, logo, row } from './Header.css';
 
 const RAINBOWKIT_VERSION = "2.5.16";
@@ -31,7 +30,7 @@ export function Header({
   return (
     <Box className={sticky ? header : undefined} {...props}>
       <Box className={row}>
-        <NextLink href="/" legacyBehavior>
+        {/* <NextLink href="/" legacyBehavior>
           <Box
             alt="Rainbow logo"
             as="img"
@@ -58,7 +57,7 @@ export function Header({
             RainbowKit
           </Text>
           <Badge>{RAINBOWKIT_VERSION}</Badge>
-        </Box>
+        </Box> */}
 
         <Box style={{ marginLeft: 'auto' }}>
           <RainbowKitProvider
