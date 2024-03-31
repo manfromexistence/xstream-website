@@ -1,21 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { Signer } from "ethers";
-import { useAccount } from "wagmi";
+import { useAccount, useSigner } from "wagmi";
 import contractConfig from "../config/contractConfig";
 import nftContractConfig from "../config/nftContractConfig";
 import { IUserData, IStreamerData, IStreamData } from "@/utils/types";
 import { BigNumber } from "ethers";
-import { createConfig, http, mainnet, sepolia } from 'wagmi';
-import { WagmiProvider } from 'wagmi';
-
-export const config = createConfig({
-  chains: [mainnet, sepolia],
-  transports: {
-    [mainnet.id]: http(),
-    [sepolia.id]: http(),
-  },
-});
 
 export const SignerContext = React.createContext<{
   signer: Signer | undefined | null;
@@ -46,6 +36,7 @@ export const SignerContext = React.createContext<{
 export const useSignerContext = () => useContext(SignerContext);
 
 export const SignerContextProvider = ({ children }: any) => {
+  const { data: signer, isError } = useSigner();
   const { address } = useAccount();
   const [contract, setContract] = useState();
   const [nftContract, setNftContract] = useState();
@@ -111,28 +102,41 @@ export const SignerContextProvider = ({ children }: any) => {
         isLive: streamerData.isLive,
       });
     }
-    setContract(contract)
-  }
+    setContract(contract);
+    setNftContract(nftContract);
+  };
+
+  const getLivestreamsData = async () => {
+    //@ts-ignore
+    const livestreamsData: IStreamData[] = await contract.getLiveStreams();
+    console.log(livestreamsData);
+    setLivestreams(livestreamsData);
+  };
+
+  useEffect(() => {
+    if (signer && address) {
+      console.log("signerContext was called");
+      getContractInfo();
+    }
+  }, [signer, address]);
 
   return (
-    <WagmiProvider config={config}>
-      <SignerContext.Provider
-        value={{
-          signer: signer,
-          contract: contract,
-          nftContract: nftContract,
-          isUser: isUser,
-          userData: userData,
-          isStreamer: isStreamer,
-          streamerData: streamerData,
-          streamerBalance: streamerBalance,
-          livestreams: livestreams,
-          getLivestreamsData: getLivestreamsData,
-          getContractInfo: getContractInfo,
-        }}
-      >
-        {children}
-      </SignerContext.Provider>
-    </WagmiProvider>
+    <SignerContext.Provider
+      value={{
+        signer,
+        contract,
+        nftContract,
+        isUser,
+        userData,
+        isStreamer,
+        streamerData,
+        streamerBalance,
+        livestreams,
+        getLivestreamsData,
+        getContractInfo,
+      }}
+    >
+      {children}
+    </SignerContext.Provider>
   );
 };

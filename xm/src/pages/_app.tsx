@@ -5,33 +5,32 @@ import { getDefaultWallets } from "@rainbow-me/rainbowkit";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import { useHuddle01 } from "@huddle01/react";
-import { publicProvider } from "wagmi/providers/public";
 import { polygonMumbai } from "wagmi/chains";
 import Context from "../contexts/context";
-import { WagmiConfig } from "wagmi";
-import { configureChains } from "wagmi";
-import { createClient } from "wagmi";
-import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
+// import { WagmiConfig } from "wagmi";
+// import { configureChains } from "wagmi";
+// import { createClient } from "wagmi";
+// import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { SignerContextProvider } from "@/contexts/signerContext";
 import { StreamContextProvider } from "@/contexts/streamContext";
 import { CurrentUserOrStreamerContextProvider } from "@/contexts/currUserOrStreamerContext";
 
-const { chains, provider } = configureChains(
-  [polygonMumbai],
-  [
-    jsonRpcProvider({
-      rpc: () => ({
-        http: "https://responsive-lively-brook.quiknode.pro/4bc6ee0cd8f90e1457df450bc756c10547be2f32",
-      }),
-    }),
-  ]
-);
+// const { chains, provider } = configureChains(
+//   [polygonMumbai],
+//   [
+//     jsonRpcProvider({
+//       rpc: () => ({
+//         http: "https://responsive-lively-brook.quiknode.pro/4bc6ee0cd8f90e1457df450bc756c10547be2f32",
+//       }),
+//     }),
+//   ]
+// );
 
-const { connectors } = getDefaultWallets({
-  appName: "My RainbowKit App",
-  projectId: process.env.NEXT_PUBLIC_WALLETCONNECT as string,
-  chains,
-});
+// const { connectors } = getDefaultWallets({
+//   appName: "My RainbowKit App",
+//   projectId: process.env.NEXT_PUBLIC_WALLETCONNECT as string,
+//   chains,
+// });
 
 // const config = createConfig({
 //   autoConnect: true,
@@ -39,11 +38,11 @@ const { connectors } = getDefaultWallets({
 //   webSocketPublicClient,
 // });
 
-const wagmiClient = createClient({
-  autoConnect: true,
-  connectors,
-  provider,
-});
+// const wagmiClient = createClient({
+//   autoConnect: true,
+//   connectors,
+//   provider,
+// });
 
 export default function App({ Component, pageProps }: AppProps) {
   const { initialize, isInitialized } = useHuddle01();
@@ -56,25 +55,43 @@ export default function App({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
-        <Context.Provider
-          value={{
-            roomId,
-            setRoomId,
-            loading,
-            setLoading
-          }}
-        >
-          <SignerContextProvider>
-            <StreamContextProvider>
-              <CurrentUserOrStreamerContextProvider>
-                <Component {...pageProps} />
-              </CurrentUserOrStreamerContextProvider>
-            </StreamContextProvider>
-          </SignerContextProvider>
-        </Context.Provider>
-      </RainbowKitProvider>
-    </WagmiConfig>
+    // <WagmiConfig client={wagmiClient}>
+    //   <RainbowKitProvider chains={chains}>
+    //     <Context.Provider
+    //       value={{
+    //         roomId,
+    //         setRoomId,
+    //         loading,
+    //         setLoading
+    //       }}
+    //     >
+    //       <SignerContextProvider>
+    //         <StreamContextProvider>
+    //           <CurrentUserOrStreamerContextProvider>
+    //             <Component {...pageProps} />
+    //           </CurrentUserOrStreamerContextProvider>
+    //         </StreamContextProvider>
+    //       </SignerContextProvider>
+    //     </Context.Provider>
+    //   </RainbowKitProvider>
+    // </WagmiConfig>
+    <Context.Provider
+      value={{
+        roomId,
+        setRoomId,
+        loading,
+        setLoading
+      }}
+    >
+      {/* <SignerContextProvider>
+      <StreamContextProvider>
+        <CurrentUserOrStreamerContextProvider>
+          <Component {...pageProps} />
+        </CurrentUserOrStreamerContextProvider>
+      </StreamContextProvider>
+    </SignerContextProvider> */}
+      <Component {...pageProps} />
+
+    </Context.Provider>
   );
 }
