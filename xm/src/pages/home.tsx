@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import { useSignerContext } from "@/contexts/signerContext";
 import React, { useEffect, useState, useContext } from "react";
-import { useSigner } from "wagmi";
+import { useWalletClient  } from "wagmi";
 import { useAccount } from "wagmi";
 import { useLobby, useRoom } from "@huddle01/react/hooks";
 import LoadingModal from "@/components/LoadingModal";
@@ -23,7 +23,7 @@ const Home = () => {
   const context: any = useContext(Context);
   const { contract, nftContract, signer, getLivestreamsData, livestreams } =
     useSignerContext();
-  const { data: signer1 } = useSigner();
+  const { data: signer1 } = useWalletClient ();
   const { isDisconnected } = useAccount();
   const { joinLobby, leaveLobby, isLoading, isLobbyJoined, error } = useLobby();
   const { getCurrStreamerData } = useCurrUserOrStreamerContext();
