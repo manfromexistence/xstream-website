@@ -64,12 +64,12 @@ export const SignerContextProvider = ({ children }: any) => {
       publicClient.readContract({
         ...contract,
         functionName: 'isUser',
-        args: [`0x${contractConfig.address}`]
+        args: [address]
       }),
       publicClient.readContract({
         ...contract,
         functionName: 'addToUser',
-        args: [`0x${contractConfig.address}`]
+        args: [address]
       }),
       publicClient.readContract({
         ...contract,
@@ -84,7 +84,7 @@ export const SignerContextProvider = ({ children }: any) => {
       publicClient.readContract({
         ...contract,
         functionName: 'streamerToBalance',
-        args: [`0x${contractConfig.address}`]
+        args: [address]
       }),
     ])
 
