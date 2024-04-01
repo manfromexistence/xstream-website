@@ -60,31 +60,31 @@ export const SignerContextProvider = ({ children }: any) => {
       client: { public: publicClient }
     })
 
-    let [ isUser, userData, isStreamer,streamerData,streamerBalanceData ]:[any,any,any,any,any] = await Promise.all([
+    let [ isUser, userData,isStreamer,streamerData,streamerBalanceData ]:[any,any,any,any,any] = await Promise.all([
       publicClient.readContract({
         ...contract,
         functionName: 'isUser',
-        args: [address]
+        args: [`0x${contractConfig.address}`]
       }),
       publicClient.readContract({
         ...contract,
         functionName: 'addToUser',
-        args: [address]
+        args: [`0x${contractConfig.address}`]
       }),
       publicClient.readContract({
         ...contract,
         functionName: 'isStreamer',
-        args: [address]
+        args: [`0x${contractConfig.address}`]
       }),
       publicClient.readContract({
         ...contract,
         functionName: 'addToStreamer',
-        args: [address]
+        args: [`0x${contractConfig.address}`]
       }),
       publicClient.readContract({
         ...contract,
         functionName: 'streamerToBalance',
-        args: [address]
+        args: [`0x${contractConfig.address}`]
       }),
     ])
 
