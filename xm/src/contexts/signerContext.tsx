@@ -1,38 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-// import { ethers } from "ethers";
-// import { Signer } from "ethers";
-// import { BigNumber } from "ethers";
-
 import { useAccount, useWalletClient } from "wagmi";
 import contractConfig from "../config/contractConfig";
 import nftContractConfig from "../config/nftContractConfig";
 import { IUserData, IStreamerData, IStreamData } from "@/utils/types";
-import { mainnet } from 'viem/chains'
-import { Chain, EIP1193RequestFn, TransportConfig, getContract } from 'viem'
-import { createPublicClient, createWalletClient, http, custom } from 'viem'
-import { BigNumber } from "ethers";
-
-// Viam Clients
-const client = createPublicClient({
-  chain: mainnet,
-  transport: http(),
-})
-// const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
-// const client = createWalletClient({
-//   chain: mainnet, 
-//   transport: http(),
-
-// })
-
-
-// const logs = await contract.getEvents.Transfer()
-// const unwatch = contract.watchEvent.Transfer(
-//   { from: contractConfig.address },
-//   { onLogs(logs: any) { console.log(logs) } }
-// )
+import { getContract } from 'viem'
+import { BigNumber } from "ethers";;
+import { publicClient } from 'components/client'
 
 export const SignerContext = React.createContext<{
-  WalletClient: any | undefined | null;
+  signer: any | undefined | null;
   contract: any;
   nftContract: any;
   isUser: boolean;
@@ -44,7 +20,7 @@ export const SignerContext = React.createContext<{
   getLivestreamsData: () => Promise<void>;
   getContractInfo: () => Promise<void>;
 }>({
-  WalletClient: undefined,
+  signer: undefined,
   contract: undefined,
   nftContract: undefined,
   isUser: false,
@@ -60,10 +36,10 @@ export const SignerContext = React.createContext<{
 export const useSignerContext = () => useContext(SignerContext);
 
 export const SignerContextProvider = ({ children }: any) => {
-  const { data: WalletClient, isError } = useWalletClient();
+  const { data: signer, isError } = useWalletClient();
   const { address } = useAccount();
-  const [contract, setContract] = useState<any>();
-  const [nftContract, setNftContract] = useState<any>();
+  const [contract, setContract] = useState();
+  const [nftContract, setNftContract] = useState();
   const [isUser, setIsUser] = useState<boolean>(false);
   const [userData, setUserData] = useState<IUserData>();
   const [isStreamer, setIsStreamer] = useState<boolean>(false);
@@ -72,71 +48,52 @@ export const SignerContextProvider = ({ children }: any) => {
   const [livestreams, setLivestreams] = useState<IStreamData[]>([]);
 
   const getContractInfo = async () => {
-    // const contract: any = new ethers.Contract(
-    //   contractConfig.address,
-    //   contractConfig.abi,
-    //   WalletClient as Signer
-    // );
-    // const nftContract: any = new ethers.Contract(
-    //   nftContractConfig.address,
-    //   nftContractConfig.abi,
-    //   WalletClient as Signer
-    // );
-    // Contracts
-    const contract = getContract({
+
+    const contract: any = getContract({
       address: `0x${contractConfig.address}`,
       abi: contractConfig.abi,
-      client: { public: client }
+      client: { public: publicClient }
     })
-    const nftContract = getContract({
+    const nftContract: any = getContract({
       address: `0x${nftContractConfig.address}`,
       abi: nftContractConfig.abi,
-      client: { public: client }
+      client: { public: publicClient }
     })
 
-    // const [isUser, totalSupply, symbol, tokenUri, balance] = await Promise.all([
-    //   client.readContract({
-    //     ...contractConfig,
-    //     functionName: 'isUser',
-    //   }),
-    //   client.readContract({
-    //     ...contractConfig,
-    //     functionName: 'totalSupply',
-    //   }),
-    //   client.readContract({
-    //     ...contractConfig,
-    //     functionName: 'symbol',
-    //   }),
-    //   client.readContract({
-    //     ...contractConfig,
-    //     functionName: 'tokenURI',
-    //     args: [420n],
-    //   }),
-    //   client.readContract({
-    //     ...contractConfig,
-    //     functionName: 'balanceOf',
-    //     args: [address],
-    //   }),
-    // ])
-    
-    const isUserResult = await client.readContract({
-      address:  `0x${contractConfig.address}`,
-      abi: contractConfig.abi,
-      functionName: 'isUser',
-      args: [`0x${contractConfig.address}`]
-    })
-    const userDataResult = await client.readContract({
-      address:  `0x${contractConfig.address}`,
-      abi: contractConfig.abi,
-      functionName: 'addToUser',
-      args: [`0x${contractConfig.address}`]
-    })
+    let [ isUser, userData, isStreamer,streamerData,streamerBalanceData ]:[any,any,any,any,any] = await Promise.all([
+      publicClient.readContract({
+        ...contract,
+        functionName: 'isUser',
+        args: address
+      }),
+      publicClient.readContract({
+        ...contract,
+        functionName: 'addToUser',
+        args: address
 
-    const isUser: any = isUserResult;
+      }),
+      publicClient.readContract({
+        ...contract,
+        functionName: 'isStreamer',
+        args: address
+      }),
+      publicClient.readContract({
+        ...contract,
+        functionName: 'addToStreamer',
+        args: address
+      }),
+      publicClient.readContract({
+        ...contract,
+        functionName: 'streamerToBalance',
+        args: address
+      }),
+    ])
 
+    // const isUser: any = await contract.watchEvent.isUser(address);
     setIsUser(isUser);
+
     if (isUser) {
-      const userData: any = await userDataResult;
+      // const userData: IUserData = await contract.read.addToUser(address);
       const bigNumberUserId = BigNumber.from(userData.userId);
       const userId = bigNumberUserId.toString();
       setUserData({
@@ -149,38 +106,18 @@ export const SignerContextProvider = ({ children }: any) => {
         collection: userData.collection,
       });
     }
-
-    const isStreamerResult = await client.readContract({
-      address:  `0x${contractConfig.address}`,
-      abi: contractConfig.abi,
-      functionName: 'isStreamer',
-      args: [`0x${contractConfig.address}`]
-    })
-    const streamerDataResult = await client.readContract({
-      address:  `0x${contractConfig.address}`,
-      abi: contractConfig.abi,
-      functionName: 'streamerData',
-      args: [`0x${contractConfig.address}`]
-    })
-    const streamerToBalanceResult = await client.readContract({
-      address:  `0x${contractConfig.address}`,
-      abi: contractConfig.abi,
-      functionName: 'streamerToBalance',
-      args: [`0x${contractConfig.address}`]
-    })
-    const isStreamer: any = await isStreamerResult;
+    // const isStreamer: boolean = await contract.read.isStreamer(address);
     setIsStreamer(isStreamer);
     if (isStreamer) {
-      const streamerData: any = await streamerDataResult;
+      // const streamerData: IStreamerData = await contract.read.addToStreamer(address);
       const bigNumberStreamerId = BigNumber.from(streamerData.streamerId);
       const streamerId = bigNumberStreamerId.toString();
       const bigTotalNfts = BigNumber.from(streamerData.totalNfts);
       const totalNfts = bigTotalNfts.toString();
       const bigNumberSubscribers = BigNumber.from(streamerData.subscribers);
       const subscribers = bigNumberSubscribers.toString();
-      const streamerBalanceData = await streamerToBalanceResult;
-      // const streamerBalance = parseFloat(streamerBalanceData) / 10 ** 18;
-      const streamerBalance:any = streamerBalanceData;
+      // const streamerBalanceData = await contract.read.streamerToBalance(address);
+      const streamerBalance = parseFloat(streamerBalanceData) / 10 ** 18;
       setStreamerBalance(streamerBalance);
       setStreamerData({
         ...streamerData,
@@ -197,28 +134,28 @@ export const SignerContextProvider = ({ children }: any) => {
         isLive: streamerData.isLive,
       });
     }
-    setContract(contract.read);
-    setNftContract(nftContract.read);
+    setContract(contract);
+    setNftContract(nftContract);
   };
 
   const getLivestreamsData = async () => {
     //@ts-ignore
-    const livestreamsData: IStreamData[] = await contract.getLiveStreams();
+    const livestreamsData: IStreamData[] = await contract.read.getLiveStreams();
     console.log(livestreamsData);
     setLivestreams(livestreamsData);
   };
 
   useEffect(() => {
-    if (WalletClient && address) {
+    if (signer && address) {
       console.log("signerContext was called");
-      // getContractInfo();
+      getContractInfo();
     }
-  }, [WalletClient, address]);
+  }, [signer, address]);
 
   return (
     <SignerContext.Provider
       value={{
-        WalletClient,
+        signer,
         contract,
         nftContract,
         isUser,

@@ -1,11 +1,10 @@
 import { IStreamData, IStreamerData } from "@/utils/types";
 import React, { useContext, useEffect, useState } from "react";
-import { useAccount, useSigner } from "wagmi";
+import { useAccount, useWalletClient } from "wagmi";
 import { useSignerContext } from "./signerContext";
 import { IChatData } from "@/utils/types";
 import { BigNumber } from "ethers";
-
-
+import { client } from 'components/client'
 
 export const StreamContext = React.createContext<{
   streamData: IStreamData | undefined;
@@ -44,7 +43,7 @@ export const StreamContext = React.createContext<{
 export const useStreamContext = () => useContext(StreamContext);
 
 export const StreamContextProvider = ({ children }: any) => {
-  const { data: signer } = useSigner();
+  const { data: signer } = useWalletClient();
   const { address } = useAccount();
   const { contract } = useSignerContext();
   const [streamData, setStreamData] = useState<IStreamData>();
@@ -61,11 +60,11 @@ export const StreamContextProvider = ({ children }: any) => {
   const getWholeStreamData = async (streamId: number) => {
     console.log(streamId)
     console.log("getWholeStreamData")
-    console.log(contract)
+    console.log(contract.read)
     const streamIdBig = BigNumber.from(streamId);
-    const streamData: IStreamData = await contract.idToStream(streamIdBig);
+    const streamData: IStreamData = await contract.read.idToStream(streamIdBig);
     console.log(streamData);
-    const streamerData: IStreamerData = await contract.addToStreamer(
+    const streamerData: IStreamerData = await contract.read.addToStreamer(
       streamData.streamer
     );
     const bigTotalAmount = BigNumber.from(streamData.totalAmount)
@@ -83,14 +82,14 @@ export const StreamContextProvider = ({ children }: any) => {
   };
 
   const getStreamCategories = async (streamId: number) => {
-    const streamCategories: string[] = await contract.getStreamCategories(
+    const streamCategories: string[] = await contract.read.getStreamCategories(
       streamId
     );
     setStreamCategories(streamCategories);
   }
 
   const getAllChatData = async (streamId: number) => {
-    const data = await contract.getAllChats(streamId);
+    const data = await contract.read.getAllChats(streamId);
     console.log(data);
     setAllChats(data);
   };

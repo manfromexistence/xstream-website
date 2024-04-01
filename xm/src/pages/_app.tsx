@@ -86,13 +86,11 @@ export default function App({ Component, pageProps }: AppProps) {
         }}
       >
         <SignerContextProvider>
-          {/* <StreamContextProvider>
+          <StreamContextProvider>
             <CurrentUserOrStreamerContextProvider>
               <Component {...pageProps} />
             </CurrentUserOrStreamerContextProvider>
-          </StreamContextProvider> */}
-            <Component {...pageProps} />
-
+          </StreamContextProvider>
         </SignerContextProvider>
       </Context.Provider>
     </Provider>

@@ -42,7 +42,7 @@ export const CurrentUserOrStreamerContextProvider = ({ children }: any) => {
   const [streamerFollowing, setStreamerFollowing] = useState<string[]>([]);
 
   const getCurrStreamerData = async (address: string | undefined) => {
-    const currStreamerData: IStreamerData = await contract.addToStreamer(
+    const currStreamerData: IStreamerData = await contract.read.addToStreamer(
       address
     );
     const bigNumberStreamerId = BigNumber.from(currStreamerData.streamerId);
@@ -51,7 +51,7 @@ export const CurrentUserOrStreamerContextProvider = ({ children }: any) => {
     const totalNfts = bigTotalNfts.toString();
     const bigNumberSubscribers = BigNumber.from(currStreamerData.subscribers);
     const subscribers = bigNumberSubscribers.toString();
-    const streamerBalanceData = await contract.streamerToBalance(address);
+    const streamerBalanceData = await contract.read.streamerToBalance(address);
     const streamerBalance = parseFloat(streamerBalanceData) / 10 ** 18;
     setCurrStreamerBalance(streamerBalance);
     setCurrStreamerData({
@@ -71,7 +71,7 @@ export const CurrentUserOrStreamerContextProvider = ({ children }: any) => {
   };
 
   const getCurrUserData = async (address: string | undefined) => {
-    const currUserData: IUserData = await contract.addToUser(address);
+    const currUserData: IUserData = await contract.read.addToUser(address);
     const bigNumberUserId = BigNumber.from(currUserData.userId);
     const userId = bigNumberUserId.toString();
     setCurrUserData({
@@ -86,21 +86,21 @@ export const CurrentUserOrStreamerContextProvider = ({ children }: any) => {
   };
 
   const getStreamerCategories = async (address: string | undefined) => {
-    const streamerCategories: string[] = await contract.getStreamerCategories(
+    const streamerCategories: string[] = await contract.read.getStreamerCategories(
       address
     );
     setStreamerCategories(streamerCategories);
   };
 
   const getStreamerFollowers = async (address: string | undefined) => {
-    const streamerFollowers: string[] = await contract.getStreamerFollowers(
+    const streamerFollowers: string[] = await contract.read.getStreamerFollowers(
       address
     );
     setStreamerFollowers(streamerFollowers);
   };
 
   const getStreamerFollowing = async (address: string | undefined) => {
-    const streamerFollowing: string[] = await contract.getStreamerFollowing(
+    const streamerFollowing: string[] = await contract.read.getStreamerFollowing(
       address
     );
     setStreamerFollowing(streamerFollowing);
