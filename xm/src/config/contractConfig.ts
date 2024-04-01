@@ -1,7 +1,7 @@
 import { IContractConfig } from "../utils/types";
 
-const contractConfig: IContractConfig = {
-  address: "0xB206ff81102e812240437A7E5411059837009cbE",
+const contractConfig:any = {
+  address: "B206ff81102e812240437A7E5411059837009cbE",
   abi: [
     {
       "inputs": [

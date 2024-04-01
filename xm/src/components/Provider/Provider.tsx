@@ -21,6 +21,13 @@ import {
   polygon,
   zora,
 } from 'wagmi/chains';
+import {
+  ConnectButton,
+  Locale,
+  darkTheme,
+  lightTheme,
+} from '@rainbow-me/rainbowkit';
+import { vars } from '@/css/vars.css';
 
 const projectId =
   process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID ?? 'YOUR_PROJECT_ID';
@@ -75,12 +82,16 @@ const client = new QueryClient();
 export function Provider({ children }: { children: React.ReactNode }) {
   return (
     <WagmiProvider config={config}>
-        <QueryClientProvider client={client}>
-      <RainbowKitProvider coolMode>
+      <QueryClientProvider client={client}>
+        <RainbowKitProvider coolMode
+          theme={
+            darkTheme({ accentColor: vars.colors.blue })
+
+          }
+        >
           {children}
-          
-      </RainbowKitProvider>
-          </QueryClientProvider>
+        </RainbowKitProvider>
+      </QueryClientProvider>
     </WagmiProvider>
   );
 }
