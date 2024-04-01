@@ -85,15 +85,13 @@ export default function App({ Component, pageProps }: AppProps) {
           setLoading
         }}
       >
-        {/* <SignerContextProvider>
-      <StreamContextProvider>
-        <CurrentUserOrStreamerContextProvider>
-          <Component {...pageProps} />
-        </CurrentUserOrStreamerContextProvider>
-      </StreamContextProvider>
-    </SignerContextProvider> */}
-        <Component {...pageProps} />
-
+        <SignerContextProvider>
+          <StreamContextProvider>
+            <CurrentUserOrStreamerContextProvider>
+              <Component {...pageProps} />
+            </CurrentUserOrStreamerContextProvider>
+          </StreamContextProvider>
+        </SignerContextProvider>
       </Context.Provider>
     </Provider>
 

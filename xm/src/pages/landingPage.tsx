@@ -26,11 +26,11 @@ const LandingPage = () => {
   return (
     <div className="flex flex-col justify-start items-center h-auto">
       <Navbar isSticky={false} />
-      {/* <Main></Main>
+      <Main></Main>
       <LiveStream></LiveStream>
       <LiveChat></LiveChat>
       <TokenGated></TokenGated>
-      <HowToStart></HowToStart> */}
+      <HowToStart></HowToStart>
     </div>
   );
 };
