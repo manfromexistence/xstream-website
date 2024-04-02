@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import Context from "@/contexts/context";
 import LoadingModal from "@/components/LoadingModal";
 import { NFTStorage, File, Blob } from "nft.storage";
-import { publicClient, walletClient, account } from "@/components/client";
+import { publicClient } from "@/components/client";
 import contractConfig from "@/config/contractConfig";
 
 
@@ -209,37 +209,19 @@ const CreateStreamer = () => {
       formData.nftSupply.toString(),
       0
     );
-    // const { request } = await publicClient.simulateContract({
-    //   address: `0x${contractConfig.address}`,
-    //   abi: contractConfig.abi,
-    //   functionName: 'createStreamer',
-    //   args: [formData.name,
-    //   formData.desp,
-    //     metadata,
-    //     cid,
-    //     profilePictureCid,
-    //     bigNftSupply,
-    //     selectedCategories],
-    //   account
-    // })
-    // if (typeof window !== 'undefined') {
-    //   await walletClient.writeContract(request);
-
-    // } else {
-    //   console.log("hi")
-    // }
-    // await walletClient.writeContract(request);
-
-    const createStreamer = await contract.createStreamer(
-      formData.name,
+    const { request } = await publicClient.simulateContract({
+      address: `0x${contractConfig.address}`,
+      abi: contractConfig.abi,
+      functionName: 'createStreamer',
+      args: [formData.name,
       formData.desp,
-      metadata,
-      cid,
-      profilePictureCid,
-      bigNftSupply,
-      selectedCategories
-    );
-    // await createStreamer.wait()
+        metadata,
+        cid,
+        profilePictureCid,
+        bigNftSupply,
+        selectedCategories],
+    })
+
     await getContractInfo()
     context.setLoading(false)
     router.push("/dashboard")

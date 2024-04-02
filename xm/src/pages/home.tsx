@@ -107,14 +107,14 @@ const Home = () => {
             className="text-white text-[2rem]"
             onClick={async () => {
               joinLobby("lij-jtcx-bvm");
-              // await getCurrStreamerData("0x4562F39FAEEdB490B3Bf0D6024F46DBD5c40cF04" as string);
-              // Router.push({
-              //   pathname: "/dashboard",
-              //   query: { streamer: "ISHOWSPEED" },
-              // });
+              await getCurrStreamerData("0x4562F39FAEEdB490B3Bf0D6024F46DBD5c40cF04" as string);
+              Router.push({
+                pathname: "/dashboard",
+                query: { streamer: "ISHOWSPEED" },
+              });
             }}
           >
-            Hello
+            Make your day.
           </span>
         )}
       </div>

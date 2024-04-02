@@ -20,10 +20,10 @@ let customResult:any;
 
 // }
 
-export const walletClient = createWalletClient({
-  chain: mainnet,
-  transport: http()
+// export const walletClient = createWalletClient({
+//   chain: mainnet,
+//   transport: http()
 
-})
+// })
 
-export const [account] = await walletClient.getAddresses()
+// export const [account] = await walletClient.getAddresses()

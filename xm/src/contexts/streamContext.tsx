@@ -78,11 +78,9 @@ export const StreamContextProvider = ({ children }: any) => {
     console.log(streamId)
     console.log("getWholeStreamData")
     const streamIdBig = BigNumber.from(streamId);
-    const streamData: IStreamData = await contract.read.idToStream(streamIdBig);
+    const streamData: any = await callContractFunction(contractAddress, contractAbi, 'idToStream', [streamIdBig]);
     console.log(streamData);
-    const streamerData: IStreamerData = await contract.read.addToStreamer(
-      streamData.streamer
-    );
+    const streamerData: any = await callContractFunction(contractAddress, contractAbi, 'addToStreamer', [streamData.streamer]);
     const bigTotalAmount = BigNumber.from(streamData.totalAmount)
     const streamBalance = parseFloat(bigTotalAmount.toString())/10**18
     setStreamBalance(streamBalance);
@@ -98,14 +96,12 @@ export const StreamContextProvider = ({ children }: any) => {
   };
 
   const getStreamCategories = async (streamId: number) => {
-    const streamCategories: string[] = await contract.read.getStreamCategories(
-      streamId
-    );
+    const streamCategories: any = await callContractFunction(contractAddress, contractAbi, 'getStreamCategories', [streamId]);
     setStreamCategories(streamCategories);
   }
 
   const getAllChatData = async (streamId: number) => {
-    const data = await contract.read.getAllChats(streamId);
+    const data:any = await callContractFunction(contractAddress, contractAbi, 'getAllChats', [streamId]);
     console.log(data);
     setAllChats(data);
   };

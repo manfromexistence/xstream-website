@@ -2,6 +2,24 @@ import { IStreamerData, IUserData } from "@/utils/types";
 import React, { useState } from "react";
 import { useSignerContext } from "./signerContext";
 import { BigNumber } from "ethers";
+import contractConfig from "@/config/contractConfig";
+import { publicClient } from "@/components/client";
+async function callContractFunction(address: any, abi: any, functionName: string, args?: any) {
+  try {
+    const data = await publicClient.readContract({
+      address,
+      abi,
+      functionName,
+      args,
+    });
+    return data;
+  } catch (error) {
+    console.error('Error calling contract function:', error);
+  }
+}
+const contractAddress = `0x${contractConfig.address}`;
+const contractAbi = contractConfig.abi;
+
 
 export const CurrUserOrStreamerContext = React.createContext<{
   currStreamerData: IStreamerData | undefined;
@@ -42,16 +60,14 @@ export const CurrentUserOrStreamerContextProvider = ({ children }: any) => {
   const [streamerFollowing, setStreamerFollowing] = useState<string[]>([]);
 
   const getCurrStreamerData = async (address: string | undefined) => {
-    const currStreamerData: IStreamerData = await contract.read.addToStreamer(
-      address
-    );
+    const currStreamerData: any = await callContractFunction(contractAddress, contractAbi, 'addToUser', [address]);
     const bigNumberStreamerId = BigNumber.from(currStreamerData.streamerId);
     const streamerId = bigNumberStreamerId.toString();
     const bigTotalNfts = BigNumber.from(currStreamerData.totalNfts);
     const totalNfts = bigTotalNfts.toString();
     const bigNumberSubscribers = BigNumber.from(currStreamerData.subscribers);
     const subscribers = bigNumberSubscribers.toString();
-    const streamerBalanceData = await contract.read.streamerToBalance(address);
+    const streamerBalanceData:any = await callContractFunction(contractAddress, contractAbi, 'streamerToBalance', [address]);
     const streamerBalance = parseFloat(streamerBalanceData) / 10 ** 18;
     setCurrStreamerBalance(streamerBalance);
     setCurrStreamerData({
@@ -71,7 +87,7 @@ export const CurrentUserOrStreamerContextProvider = ({ children }: any) => {
   };
 
   const getCurrUserData = async (address: string | undefined) => {
-    const currUserData: IUserData = await contract.read.addToUser(address);
+    const currUserData: any = await callContractFunction(contractAddress, contractAbi, 'addToUser', [address]);
     const bigNumberUserId = BigNumber.from(currUserData.userId);
     const userId = bigNumberUserId.toString();
     setCurrUserData({
@@ -86,23 +102,17 @@ export const CurrentUserOrStreamerContextProvider = ({ children }: any) => {
   };
 
   const getStreamerCategories = async (address: string | undefined) => {
-    const streamerCategories: string[] = await contract.read.getStreamerCategories(
-      address
-    );
+    const streamerCategories: any = await callContractFunction(contractAddress, contractAbi, 'getStreamerCategories', [address]);
     setStreamerCategories(streamerCategories);
   };
 
   const getStreamerFollowers = async (address: string | undefined) => {
-    const streamerFollowers: string[] = await contract.read.getStreamerFollowers(
-      address
-    );
+    const streamerFollowers: any = await callContractFunction(contractAddress, contractAbi, 'getStreamerFollowers', [address]);
     setStreamerFollowers(streamerFollowers);
   };
 
   const getStreamerFollowing = async (address: string | undefined) => {
-    const streamerFollowing: string[] = await contract.read.getStreamerFollowing(
-      address
-    );
+    const streamerFollowing: any = await callContractFunction(contractAddress, contractAbi, 'getStreamerFollowing', [address]);
     setStreamerFollowing(streamerFollowing);
   };
 

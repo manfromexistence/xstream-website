@@ -8,10 +8,12 @@ import { NFTStorage, File, Blob } from "nft.storage";
 import { useRouter } from "next/router";
 import Context from "@/contexts/context";
 import HowToStart from "./HowToStart";
+import { publicClient } from "@/components/client";
+import contractConfig from "@/config/contractConfig";
 
 interface FormDataProps {
-  name: string | undefined;
-  desp: string | undefined;
+  name: string | any;
+  desp: string | any;
 }
 
 interface EditProfileProps {
@@ -113,12 +115,20 @@ const EditProfile: React.FC<EditProfileProps> = ({
     } else {
       profilePictureCid = "";
     }
-    const createUser = await contract.createUser(
-      formData.name,
+    // const createUser = await contract.createUser(
+    //   formData.name,
+    //   formData.desp,
+    //   profilePictureCid
+    // );
+    const { request } = await publicClient.simulateContract({
+      address: `0x${contractConfig.address}`,
+      abi: contractConfig.abi,
+      functionName: 'createUser',
+      args: [formData.name,
       formData.desp,
-      profilePictureCid
-    );
-    await createUser.wait();
+        profilePictureCid]
+    })
+    // await createUser.wait();
     await getContractInfo();
     context.setLoading(false);
     setChoseUser(false);
@@ -133,12 +143,20 @@ const EditProfile: React.FC<EditProfileProps> = ({
       profilePictureCid = "";
     }
 
-    const saveChanges = await contract.editUser(
-      formData.name,
+    // const saveChanges = await contract.editUser(
+    //   formData.name,
+    //   formData.desp,
+    //   profilePictureCid
+    // );
+    const { request } = await publicClient.simulateContract({
+      address: `0x${contractConfig.address}`,
+      abi: contractConfig.abi,
+      functionName: 'editUser',
+      args: [formData.name,
       formData.desp,
-      profilePictureCid
-    );
-    await saveChanges.wait();
+        profilePictureCid]
+    })
+    // await saveChanges.wait();
     await getContractInfo();
     context.setLoading(false);
     setEnterEdit(false);
