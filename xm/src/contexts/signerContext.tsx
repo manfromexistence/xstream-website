@@ -60,7 +60,7 @@ export const SignerContextProvider = ({ children }: any) => {
       client: { public: publicClient }
     })
 
-    let [ isUser, userData,isStreamer,streamerData,streamerBalanceData ]:[any,any,any,any,any] = await Promise.all([
+    const [ isUser, userData,isStreamer,streamerData,streamerBalanceData ]:[any,any,any,any,any] = await Promise.all([
       publicClient.readContract({
         ...contract,
         functionName: 'isUser',
@@ -87,54 +87,55 @@ export const SignerContextProvider = ({ children }: any) => {
         args: [address]
       }),
     ])
+    console.log(`isUser = ${isUser}, userData = ${userData},isStreamer = ${isStreamer}, streamerData = ${streamerData}, streamerBalanceData = ${streamerBalanceData}`);
 
     // const isUser: any = await contract.watchEvent.isUser(address);
-    setIsUser(isUser);
+    // setIsUser(isUser);
 
-    if (isUser) {
-      // const userData: IUserData = await contract.read.addToUser(address);
-      const bigNumberUserId = BigNumber.from(userData.userId);
-      const userId = bigNumberUserId.toString();
-      setUserData({
-        ...userData,
-        userId: userId,
-        userAdd: userData.userAdd,
-        name: userData.name,
-        desp: userData.desp,
-        profilePicture: userData.profilePicture,
-        collection: userData.collection,
-      });
-    }
-    // const isStreamer: boolean = await contract.read.isStreamer(address);
-    setIsStreamer(isStreamer);
-    if (isStreamer) {
-      // const streamerData: IStreamerData = await contract.read.addToStreamer(address);
-      const bigNumberStreamerId = BigNumber.from(streamerData.streamerId);
-      const streamerId = bigNumberStreamerId.toString();
-      const bigTotalNfts = BigNumber.from(streamerData.totalNfts);
-      const totalNfts = bigTotalNfts.toString();
-      const bigNumberSubscribers = BigNumber.from(streamerData.subscribers);
-      const subscribers = bigNumberSubscribers.toString();
-      // const streamerBalanceData = await contract.read.streamerToBalance(address);
-      const streamerBalance = parseFloat(streamerBalanceData) / 10 ** 18;
-      setStreamerBalance(streamerBalance);
-      setStreamerData({
-        ...streamerData,
-        streamerId: streamerId,
-        streamerAdd: streamerData.streamerAdd,
-        name: streamerData.name,
-        desp: streamerData.desp,
-        nftImage: streamerData.nftImage,
-        profilePicture: streamerData.profilePicture,
-        totalNfts: totalNfts,
-        categories: streamerData.categories,
-        followers: streamerData.followers,
-        subscribers: subscribers,
-        isLive: streamerData.isLive,
-      });
-    }
-    setContract(contract);
-    setNftContract(nftContract);
+    // if (isUser) {
+    //   // const userData: IUserData = await contract.read.addToUser(address);
+    //   const bigNumberUserId = BigNumber.from(userData.userId);
+    //   const userId = bigNumberUserId.toString();
+    //   setUserData({
+    //     ...userData,
+    //     userId: userId,
+    //     userAdd: userData.userAdd,
+    //     name: userData.name,
+    //     desp: userData.desp,
+    //     profilePicture: userData.profilePicture,
+    //     collection: userData.collection,
+    //   });
+    // }
+    // // const isStreamer: boolean = await contract.read.isStreamer(address);
+    // setIsStreamer(isStreamer);
+    // if (isStreamer) {
+    //   // const streamerData: IStreamerData = await contract.read.addToStreamer(address);
+    //   const bigNumberStreamerId = BigNumber.from(streamerData.streamerId);
+    //   const streamerId = bigNumberStreamerId.toString();
+    //   const bigTotalNfts = BigNumber.from(streamerData.totalNfts);
+    //   const totalNfts = bigTotalNfts.toString();
+    //   const bigNumberSubscribers = BigNumber.from(streamerData.subscribers);
+    //   const subscribers = bigNumberSubscribers.toString();
+    //   // const streamerBalanceData = await contract.read.streamerToBalance(address);
+    //   const streamerBalance = parseFloat(streamerBalanceData) / 10 ** 18;
+    //   setStreamerBalance(streamerBalance);
+    //   setStreamerData({
+    //     ...streamerData,
+    //     streamerId: streamerId,
+    //     streamerAdd: streamerData.streamerAdd,
+    //     name: streamerData.name,
+    //     desp: streamerData.desp,
+    //     nftImage: streamerData.nftImage,
+    //     profilePicture: streamerData.profilePicture,
+    //     totalNfts: totalNfts,
+    //     categories: streamerData.categories,
+    //     followers: streamerData.followers,
+    //     subscribers: subscribers,
+    //     isLive: streamerData.isLive,
+    //   });
+    // }
+    // setContract(contract);
+    // setNftContract(nftContract);
   };
 
   const getLivestreamsData = async () => {
