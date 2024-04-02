@@ -4,7 +4,7 @@ import { useAccount, useWalletClient } from "wagmi";
 import { useSignerContext } from "./signerContext";
 import { IChatData } from "@/utils/types";
 import { BigNumber } from "ethers";
-import { client } from 'components/client'
+import { publicClient } from 'components/client'
 
 export const StreamContext = React.createContext<{
   streamData: IStreamData | undefined;
