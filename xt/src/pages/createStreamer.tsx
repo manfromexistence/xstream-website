@@ -17,9 +17,16 @@ interface FormDataProps {
   nftSupply: number;
 }
 
+
 const CreateStreamer = () => {
   const context: any = useContext(Context);
-  const nftSvgString = process.env.NEXT_PUBLIC_NFT_SVG_STRING as string;
+  const nftSvgString = process.env.NEXT_PUBLIC_NFT_SVG_STRING as string || `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <circle cx="200" cy="200" r="100" fill="#f0f" />
+  <text x="200" y="220" dominant-baseline="middle" text-anchor="middle" font-size="32">
+    NFT
+  </text>
+</svg>`;
+
   const svgDataUrl = `data:image/svg+xml;base64,${btoa(nftSvgString)}`;
   const [selectedImage, setSelectedImage] = useState<any>(null);
   const [profilePicture, setProfilePicture] = useState<File | null>(null);
