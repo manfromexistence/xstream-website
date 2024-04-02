@@ -64,7 +64,6 @@ export const SignerContextProvider = ({ children }: any) => {
       publicClient.readContract({
         ...contract,
         functionName: 'isUser',
-        args: [address]
       }),
       publicClient.readContract({
         ...contract,
