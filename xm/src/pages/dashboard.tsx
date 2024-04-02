@@ -47,7 +47,7 @@ const Dashboard = () => {
         const streamerName = streamerData?.name || "";
         queryParam = `streamer=${replaceSpacesWithHyphens(streamerName)}`;
       } else {
-        console.log("isIdle");
+        // console.log("isIdle");
         queryParam = `idle=${address}`;
       }
 
