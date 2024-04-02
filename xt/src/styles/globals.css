@@ -416,10 +416,10 @@ body {
 }
 
 
-.iekbcc0.ju367va div:nth-child(3){
+.ju367va > :nth-child(3){
   display: none;
 }
-
-.iekbcc0.ju367vao.ju367v1z.ju367v37.ju367v52{
+.ju367v1u{
   display: flex !important;
+  /* background: red; */
 }
