@@ -99,13 +99,13 @@ const Navbar: React.FC<NavbarProps> = ({ isSticky }) => {
                 height={200}
               ></Image>
             </div>
-            <span className="text-textRed text-[1rem] font-rubik font-bold ml-3">
+            {/* <span className="text-textRed text-[1rem] font-rubik font-bold ml-3">
               {isUser
                 ? userData?.name
                 : isStreamer
                 ? streamerData?.name
                 : ellipAddress}
-            </span>
+            </span> */}
             {dropDownMenu && <DropDownMenu></DropDownMenu>}
           </div>
         )}

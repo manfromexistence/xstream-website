@@ -5,6 +5,23 @@ import { useSignerContext } from "./signerContext";
 import { IChatData } from "@/utils/types";
 import { BigNumber } from "ethers";
 import { publicClient } from 'components/client'
+import contractConfig from "@/config/contractConfig";
+
+async function callContractFunction(address: any, abi: any, functionName: string, args?: any) {
+  try {
+    const data = await publicClient.readContract({
+      address,
+      abi,
+      functionName,
+      args,
+    });
+    return data;
+  } catch (error) {
+    console.error('Error calling contract function:', error);
+  }
+}
+const contractAddress = `0x${contractConfig.address}`;
+const contractAbi = contractConfig.abi;
 
 export const StreamContext = React.createContext<{
   streamData: IStreamData | undefined;
@@ -60,7 +77,6 @@ export const StreamContextProvider = ({ children }: any) => {
   const getWholeStreamData = async (streamId: number) => {
     console.log(streamId)
     console.log("getWholeStreamData")
-    console.log(contract.read)
     const streamIdBig = BigNumber.from(streamId);
     const streamData: IStreamData = await contract.read.idToStream(streamIdBig);
     console.log(streamData);

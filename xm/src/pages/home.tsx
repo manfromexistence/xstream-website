@@ -45,36 +45,54 @@ const Home = () => {
   useEffect(() => {
     const addStreamStartedListener = async () => {
       if (contract) {
-        const eventEmitter1 = contract.on(
-          "StreamStarted",
-          (streamId: BigNumber, streamer: string) => {
-            console.log(streamId, streamer);
-            getLivestreamsData();
-          }
-        );
+        // const eventEmitter1 = contract.on(
+        //   "StreamStarted",
+        //   (streamId: BigNumber, streamer: string) => {
+        //     console.log(streamId, streamer);
+        //     getLivestreamsData();
+        //   }
+        // );
+
+        const eventEmitter1 = contract.watchEvent.StreamStarted({
+          onLogs: (logs: { args: { from: any; to: any; amount: any; }; eventName: any; }[]) => {
+            const { args: { from, to, amount }, eventName } = logs[0];
+            (streamId: BigNumber, streamer: string) => {
+              console.log(streamId, streamer);
+              getLivestreamsData();
+            }
+          },
+        })
 
         return () => {
           eventEmitter1.removeAllListeners("StreamStarted");
         };
       }
     };
-    // const addStreamStoppedListener = async () => {
-    //   if (contract) {
-    //     const eventEmitter2 = contract.on(
-    //       "StreamStopped",
-    //       (streamId: BigNumber, streamer: string, streamerName: string) => {
-    //         console.log("A stream was stopped");
-    //         getLivestreamsData();
-    //       }
-    //     );
+    const addStreamStoppedListener = async () => {
+      if (contract) {
+        // const eventEmitter2 = contract.on(
+        //   "StreamStopped",
+          // (streamId: BigNumber, streamer: string, streamerName: string) => {
+          //   console.log("A stream was stopped");
+          //   getLivestreamsData();
+          // }
+        // );
+        const eventEmitter2 = contract.watchEvent.StreamStopped({
+          onLogs: (logs: { args: { from: any; to: any; amount: any; }; eventName: any; }[]) => {
+            const { args: { from, to, amount }, eventName } = logs[0];
+            (streamId: BigNumber, streamer: string, streamerName: string) => {
+              console.log("A stream was stopped");
+              getLivestreamsData();
+            }
+          },
+        })
+        return () => {
+          eventEmitter2.removeAllListeners("StreamStopped");
+        };
+      }
+    };
 
-    //     return () => {
-    //       eventEmitter2.removeAllListeners("StreamStopped");
-    //     };
-    //   }
-    // };
-
-    // addStreamStoppedListener();
+    addStreamStoppedListener();
     addStreamStartedListener();
   }, [contract]);
 
@@ -83,7 +101,7 @@ const Home = () => {
     <div className="bg6 flex flex-col justify-start items-center scrollbar-hidden content">
       <Navbar isSticky={true}></Navbar>
       <LoadingModal isOpen={context.loading}></LoadingModal>
-      {/* <div className="h-[100vh] w-full flex flex-col justify-center items-center">
+      <div className="h-[100vh] w-full flex flex-col justify-center items-center">
         {!isDisconnected && (
           <span
             className="text-white text-[2rem]"
@@ -99,7 +117,7 @@ const Home = () => {
             Hello
           </span>
         )}
-      </div> */}
+      </div>
       <div className="w-full h-[10vh]"></div>
       <div className="flex flex-col justify-start items-center w-[95%] h-auto gap-8 my-10">
         <div

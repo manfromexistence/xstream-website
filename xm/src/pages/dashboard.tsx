@@ -37,13 +37,13 @@ const Dashboard = () => {
         name.replace(/\s+/g, "-");
       // Set the query parameter based on the conditions
       let queryParam = "";
-      console.log(isUser, isStreamer);
+      // console.log(isUser, isStreamer);
       if (isUser) {
-        console.log("isUser");
+        // console.log("isUser");
         const userName = userData?.name || "";
         queryParam = `user=${replaceSpacesWithHyphens(userName)}`;
       } else if (isStreamer) {
-        console.log("isStreamer");
+        // console.log("isStreamer");
         const streamerName = streamerData?.name || "";
         queryParam = `streamer=${replaceSpacesWithHyphens(streamerName)}`;
       } else {

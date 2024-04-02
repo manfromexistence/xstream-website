@@ -359,3 +359,176 @@ export const SignerContextProvider = ({ children }: any) => {
     </SignerContext.Provider>
   );
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // const isUser: any = await publicClient.readContract({
+    //   address: "0xB206ff81102e812240437A7E5411059837009cbE",
+    //   abi: contractConfig.abi,
+    //   functionName: 'isUser',
+    //   args: address
+
+    // })
+
+    // if (isUser) {
+    //   const userData: IUserData = await contract.addToUser(address);
+    //   const bigNumberUserId = BigNumber.from(userData.userId);
+    //   const userId = bigNumberUserId.toString();
+    //   setUserData({
+    //     ...userData,
+    //     userId: userId,
+    //     userAdd: userData.userAdd,
+    //     name: userData.name,
+    //     desp: userData.desp,
+    //     profilePicture: userData.profilePicture,
+    //     collection: userData.collection,
+    //   });
+    // }
+    // const isStreamer: boolean = await contract.isStreamer(address);
+    // setIsStreamer(isStreamer);
+    // if (isStreamer) {
+    //   const streamerData: IStreamerData = await contract.addToStreamer(address);
+    //   const bigNumberStreamerId = BigNumber.from(streamerData.streamerId);
+    //   const streamerId = bigNumberStreamerId.toString();
+    //   const bigTotalNfts = BigNumber.from(streamerData.totalNfts);
+    //   const totalNfts = bigTotalNfts.toString();
+    //   const bigNumberSubscribers = BigNumber.from(streamerData.subscribers);
+    //   const subscribers = bigNumberSubscribers.toString();
+    //   const streamerBalanceData = await contract.streamerToBalance(address);
+    //   const streamerBalance = parseFloat(streamerBalanceData) / 10 ** 18;
+    //   setStreamerBalance(streamerBalance);
+    //   setStreamerData({
+    //     ...streamerData,
+    //     streamerId: streamerId,
+    //     streamerAdd: streamerData.streamerAdd,
+    //     name: streamerData.name,
+    //     desp: streamerData.desp,
+    //     nftImage: streamerData.nftImage,
+    //     profilePicture: streamerData.profilePicture,
+    //     totalNfts: totalNfts,
+    //     categories: streamerData.categories,
+    //     followers: streamerData.followers,
+    //     subscribers: subscribers,
+    //     isLive: streamerData.isLive,
+    //   });
+    // }
+    // setContract(contract);
+    // setNftContract(nftContract);
+    // const [ isUser, userData,isStreamer,streamerData,streamerBalanceData ]:[any,any,any,any,any] = await Promise.all([
+    //   publicClient.readContract({
+    //     ...contract,
+    //     functionName: 'isUser',
+    //   }),
+    //   publicClient.readContract({
+    //     ...contract,
+    //     functionName: 'addToUser',
+    //     args: [address]
+    //   }),
+    //   publicClient.readContract({
+    //     ...contract,
+    //     functionName: 'isStreamer',
+    //     args: [`0x${contractConfig.address}`]
+    //   }),
+    //   publicClient.readContract({
+    //     ...contract,
+    //     functionName: 'addToStreamer',
+    //     args: [`0x${contractConfig.address}`]
+    //   }),
+    //   publicClient.readContract({
+    //     ...contract,
+    //     functionName: 'streamerToBalance',
+    //     args: [address]
+    //   }),
+    // ])
+    // console.log(`isUser = ${isUser}, userData = ${userData},isStreamer = ${isStreamer}, streamerData = ${streamerData}, streamerBalanceData = ${streamerBalanceData}`);
+
+    // const isUser: any = await contract.watchEvent.isUser(address);
+    // setIsUser(isUser);
+    // if (isUser) {
+    //   // const userData: IUserData = await contract.read.addToUser(address);
+    //   const bigNumberUserId = BigNumber.from(userData.userId);
+    //   const userId = bigNumberUserId.toString();
+    //   setUserData({
+    //     ...userData,
+    //     userId: userId,
+    //     userAdd: userData.userAdd,
+    //     name: userData.name,
+    //     desp: userData.desp,
+    //     profilePicture: userData.profilePicture,
+    //     collection: userData.collection,
+    //   });
+    // }
+    // // const isStreamer: boolean = await contract.read.isStreamer(address);
+    // setIsStreamer(isStreamer);
+    // if (isStreamer) {
+    //   // const streamerData: IStreamerData = await contract.read.addToStreamer(address);
+    //   const bigNumberStreamerId = BigNumber.from(streamerData.streamerId);
+    //   const streamerId = bigNumberStreamerId.toString();
+    //   const bigTotalNfts = BigNumber.from(streamerData.totalNfts);
+    //   const totalNfts = bigTotalNfts.toString();
+    //   const bigNumberSubscribers = BigNumber.from(streamerData.subscribers);
+    //   const subscribers = bigNumberSubscribers.toString();
+    //   // const streamerBalanceData = await contract.read.streamerToBalance(address);
+    //   const streamerBalance = parseFloat(streamerBalanceData) / 10 ** 18;
+    //   setStreamerBalance(streamerBalance);
+    //   setStreamerData({
+    //     ...streamerData,
+    //     streamerId: streamerId,
+    //     streamerAdd: streamerData.streamerAdd,
+    //     name: streamerData.name,
+    //     desp: streamerData.desp,
+    //     nftImage: streamerData.nftImage,
+    //     profilePicture: streamerData.profilePicture,
+    //     totalNfts: totalNfts,
+    //     categories: streamerData.categories,
+    //     followers: streamerData.followers,
+    //     subscribers: subscribers,
+    //     isLive: streamerData.isLive,
+    //   });
+    // }
+    // setContract(contract);
+    // setNftContract(nftContract);

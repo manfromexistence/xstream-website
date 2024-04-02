@@ -9,6 +9,8 @@ import { useRouter } from "next/router";
 import Context from "@/contexts/context";
 import LoadingModal from "@/components/LoadingModal";
 import { NFTStorage, File, Blob } from "nft.storage";
+import { publicClient, walletClient, account } from "@/components/client";
+import contractConfig from "@/config/contractConfig";
 
 
 interface FormDataProps {
@@ -19,7 +21,12 @@ interface FormDataProps {
 
 const CreateStreamer = () => {
   const context: any = useContext(Context);
-  const nftSvgString = process.env.NEXT_PUBLIC_NFT_SVG_STRING as string;
+  const nftSvgString = process.env.NEXT_PUBLIC_NFT_SVG_STRING as string || `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <circle cx="200" cy="200" r="100" fill="#f0f" />
+  <text x="200" y="220" dominant-baseline="middle" text-anchor="middle" font-size="32">
+    NFT
+  </text>
+</svg>`;
   const svgDataUrl = `data:image/svg+xml;base64,${btoa(nftSvgString)}`;
   const [selectedImage, setSelectedImage] = useState<any>(null);
   const [profilePicture, setProfilePicture] = useState<File | null>(null);
@@ -57,7 +64,7 @@ const CreateStreamer = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   const client = new NFTStorage({
-    token: process.env.NEXT_PUBLIC_NFTSTORAGE_KEY as string,
+    token: process.env.NEXT_PUBLIC_NFTSTORAGE_KEY as string || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDJBNDZBOWZFM0RFYjI0MkZlNTgwQkVCNEQ3Q2Y2ZjBBNERkMGNiQ2IiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTcxMjA3MDcwOTgzNSwibmFtZSI6Ik1hbkZyb21FYXJ0aCJ9.BrW5jcTRTG7rFY6lfdPQXJJyUxI9FTlzB3L6Px-xZZg",
   });
 
   const handleCategoryClick = (category: string) => {
@@ -198,10 +205,30 @@ const CreateStreamer = () => {
     const profilePictureCid = await profilePictureUpload();
     console.log(profilePictureCid)
     const { metadata, cid } = await uploadNFT();
-    const bigNftSupply = ethers.utils.parseUnits(
+    const bigNftSupply: any = ethers.utils.parseUnits(
       formData.nftSupply.toString(),
       0
     );
+    // const { request } = await publicClient.simulateContract({
+    //   address: `0x${contractConfig.address}`,
+    //   abi: contractConfig.abi,
+    //   functionName: 'createStreamer',
+    //   args: [formData.name,
+    //   formData.desp,
+    //     metadata,
+    //     cid,
+    //     profilePictureCid,
+    //     bigNftSupply,
+    //     selectedCategories],
+    //   account
+    // })
+    // if (typeof window !== 'undefined') {
+    //   await walletClient.writeContract(request);
+
+    // } else {
+    //   console.log("hi")
+    // }
+    // await walletClient.writeContract(request);
 
     const createStreamer = await contract.createStreamer(
       formData.name,
@@ -212,7 +239,7 @@ const CreateStreamer = () => {
       bigNftSupply,
       selectedCategories
     );
-    await createStreamer.wait()
+    // await createStreamer.wait()
     await getContractInfo()
     context.setLoading(false)
     router.push("/dashboard")
@@ -337,11 +364,10 @@ const CreateStreamer = () => {
             {categories.map((category, index) => (
               <div
                 key={index}
-                className={`w-auto px-2 h-[2.4rem] rounded-2xl flex flex-row justify-center items-center text-white font-rubik font-bold text-[0.8rem] cursor-pointer ${
-                  selectedCategories.includes(category)
-                    ? "bg-primaryRed"
-                    : "bg-secondaryGrey"
-                }`}
+                className={`w-auto px-2 h-[2.4rem] rounded-2xl flex flex-row justify-center items-center text-white font-rubik font-bold text-[0.8rem] cursor-pointer ${selectedCategories.includes(category)
+                  ? "bg-primaryRed"
+                  : "bg-secondaryGrey"
+                  }`}
                 onClick={() => handleCategoryClick(category)}
               >
                 {category}
